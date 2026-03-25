@@ -65,6 +65,7 @@ body {
     color: var(--text-primary);
     line-height: 1.7;
     overflow-x: hidden;
+    overflow-wrap: break-word; /* Prevent text overlap across columns on small screens */
     -webkit-font-smoothing: antialiased;
 }
 
@@ -269,6 +270,7 @@ button {
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    padding: 100px 0 80px; /* Provides top/bottom padding to prevent hero overlapping scrolled navbar or bottom indicator */
 }
 
 .hero-bg {
@@ -1583,6 +1585,7 @@ button {
         gap: 4px;
         transition: right var(--transition);
         border-left: 1px solid var(--border-glass);
+        overflow-y: auto;
     }
 
     .nav-links.active {
@@ -1604,7 +1607,7 @@ button {
     }
 
     .card-image {
-        height: 260px;
+        height: 340px; /* Increased from 260px to accommodate absolute position card-content on mobile */
     }
 
     .gallery-grid {
@@ -1634,7 +1637,7 @@ button {
     }
 
     .about-image-stack {
-        height: 350px;
+        height: 400px; /* Provides enough height for absolutely stacked images on mobile */
     }
 
     .contact-grid {
