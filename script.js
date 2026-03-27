@@ -98,25 +98,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // ─── REAL VISITOR COUNT ───
     const visitorCountEl = document.getElementById('realVisitorCount');
     if (visitorCountEl) {
-        // Fetch real visit count from a free anonymous counter API
-        // It automatically increments the count every time this endpoint is hit.
-        fetch('https://api.counterapi.dev/v1/rajputtours/travelportfolio/up')
+        // Fetch real visit count using a unique new namespace and instantly display it
+        fetch('https://api.counterapi.dev/v1/rajputtours/real_hits_v1/up')
             .then(response => response.json())
             .then(data => {
                 if (data && data.count) {
-                    visitorCountEl.setAttribute('data-target', data.count);
+                    visitorCountEl.textContent = data.count; // Instantly shows the new count
                 }
             })
             .catch(err => {
                 // Fallback to local storage if API fails
-                let count = localStorage.getItem('rajput_visits');
+                let count = localStorage.getItem('rajput_visits_v1');
                 if (!count) {
                     count = 1;
                 } else {
                     count = parseInt(count) + 1;
                 }
-                localStorage.setItem('rajput_visits', count);
-                visitorCountEl.setAttribute('data-target', count);
+                localStorage.setItem('rajput_visits_v1', count);
+                visitorCountEl.textContent = count;
             });
     }
 
