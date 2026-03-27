@@ -1492,6 +1492,8 @@ button {
     font-size: 0.92rem;
 }
 
+
+
 /* ─────────────────────────────────────
    FOOTER
    ───────────────────────────────────── */
@@ -1643,6 +1645,11 @@ button {
     .contact-grid {
         grid-template-columns: 1fr;
         gap: 48px;
+    }
+
+    .views-stats {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
 
     .hero-stats {

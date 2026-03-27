@@ -95,6 +95,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // ─── REAL VISITOR COUNT ───
+    const visitorCountEl = document.getElementById('realVisitorCount');
+    if (visitorCountEl) {
+        // Fetch real visit count from a free anonymous counter API
+        // It automatically increments the count every time this endpoint is hit.
+        fetch('https://api.counterapi.dev/v1/rajputtours/travelportfolio/up')
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.count) {
+                    visitorCountEl.setAttribute('data-target', data.count);
+                }
+            })
+            .catch(err => {
+                // Fallback to local storage if API fails
+                let count = localStorage.getItem('rajput_visits');
+                if (!count) {
+                    count = 1;
+                } else {
+                    count = parseInt(count) + 1;
+                }
+                localStorage.setItem('rajput_visits', count);
+                visitorCountEl.setAttribute('data-target', count);
+            });
+    }
+
     // ─── COUNTER ANIMATION ───
     const counters = document.querySelectorAll('.stat-number');
     let countersAnimated = false;
