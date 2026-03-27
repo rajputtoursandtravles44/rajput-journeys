@@ -95,26 +95,37 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ─── REAL VISITOR COUNT ───
+    // ─── UNIQUE VISITOR COUNT ───
     const visitorCountEl = document.getElementById('realVisitorCount');
     if (visitorCountEl) {
-        // Fetch real visit count using a unique new namespace and instantly display it
-        fetch('https://api.counterapi.dev/v1/rajputtours/real_hits_v1/up')
+        const hasVisited = localStorage.getItem('has_visited_v3');
+        let url = 'https://api.counterapi.dev/v1/rajputtours/unique_visits_v3';
+        
+        // Only increment the API counter if this is their first visit
+        if (!hasVisited) {
+            url += '/up';
+            localStorage.setItem('has_visited_v3', 'true');
+        }
+
+        // Add a random timestamp to bypass aggressive mobile/browser caching
+        url += `?t=${new Date().getTime()}`;
+
+        fetch(url, { cache: 'no-store', mode: 'cors' })
             .then(response => response.json())
             .then(data => {
-                if (data && data.count) {
-                    visitorCountEl.textContent = data.count; // Instantly shows the new count
+                if (data && data.count !== undefined) {
+                    visitorCountEl.textContent = data.count;
                 }
             })
             .catch(err => {
                 // Fallback to local storage if API fails
-                let count = localStorage.getItem('rajput_visits_v1');
-                if (!count) {
-                    count = 1;
+                let count = localStorage.getItem('rajput_visits_fallback');
+                if (!hasVisited) {
+                    count = count ? parseInt(count) + 1 : 1;
+                    localStorage.setItem('rajput_visits_fallback', count);
                 } else {
-                    count = parseInt(count) + 1;
+                    count = count || 1;
                 }
-                localStorage.setItem('rajput_visits_v1', count);
                 visitorCountEl.textContent = count;
             });
     }
